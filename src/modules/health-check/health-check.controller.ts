@@ -1,0 +1,19 @@
+import { Application } from 'express';
+import { ControllerFactory } from '../../lib/controller-factory';
+import { logger } from '../../lib/loggerService';
+
+export class HealthCheckController implements ControllerFactory {
+  constructor(private readonly app: Application) {}
+
+  private healthCheck() {
+    this.app.get('/health-check', async (_req, res) => {
+      logger.info('GET /health-check - performing health check');
+
+      res.json({ status: 'OK' });
+    });
+  }
+
+  attachRoutes() {
+    this.healthCheck();
+  }
+}

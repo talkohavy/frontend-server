@@ -1,0 +1,10 @@
+**/node_modules
+**/.DS_Store
+**/.env*
+**/_ignore_
+
+# I added these:
+dist
+.turbo
+jsconfig.tsbuildinfo
+.env
