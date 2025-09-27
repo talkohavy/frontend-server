@@ -1,14 +1,9 @@
-import { serviceName } from '../common/constants';
-import { Config } from './types';
+export { configuration } from './configuration';
+export { configService, initConfigService } from './initConfigService';
+export { logger, initLoggerService } from './initLoggerService';
 
-export function configuration(): Config {
-  return {
-    port: (process.env.PORT || 3000) as number,
-    isDev: !!process.env.IS_DEV,
-    logSettings: {
-      logLevel: 'info',
-      logEnvironment: 'development',
-      serviceName: serviceName,
-    },
-  };
-}
+// constants
+export { ConfigKeys } from './constants';
+
+// types
+export type * from './constants';

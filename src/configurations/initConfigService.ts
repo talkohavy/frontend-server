@@ -1,5 +1,5 @@
-import { ConfigService } from '../lib/config';
-import { Config } from './types';
+import type { Config } from './constants';
+import { ConfigService } from '../lib/config-service';
 
 export let configService: ConfigService<Config>;
 

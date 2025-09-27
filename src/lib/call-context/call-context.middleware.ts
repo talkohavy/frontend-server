@@ -1,6 +1,6 @@
 import { Application, NextFunction, Request, Response } from 'express';
 import { CallContextService } from './call-context.service';
-import { Context } from './logic/constants';
+import { RequestContext } from './logic/constants';
 
 export class CallContextMiddleware {
   public constructor(private readonly callContextService: CallContextService<string, string>) {}
@@ -23,7 +23,7 @@ export class CallContextMiddleware {
       req: Request,
       res: Response,
       next: NextFunction,
-    ) => { shouldCallNext?: boolean; shouldReturn?: boolean } | undefined,
+    ) => { shouldCallNext?: boolean; shouldReturn?: boolean } | void,
     /**
      * A middleware that will be executed AFTER the context is created.
      *
@@ -59,10 +59,10 @@ export class CallContextMiddleware {
   private attachRequestInfo(req: Request) {
     const { method, query, url, originalUrl, path } = req;
 
-    this.callContextService.set(Context.Method, method);
-    this.callContextService.set(Context.OriginalUrl, originalUrl);
-    this.callContextService.set(Context.Url, url);
-    this.callContextService.set(Context.Path, path);
-    this.callContextService.set(Context.Query, JSON.stringify(query));
+    this.callContextService.set(RequestContext.Method, method);
+    this.callContextService.set(RequestContext.OriginalUrl, originalUrl);
+    this.callContextService.set(RequestContext.Url, url);
+    this.callContextService.set(RequestContext.Path, path);
+    this.callContextService.set(RequestContext.Query, JSON.stringify(query));
   }
 }

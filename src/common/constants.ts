@@ -23,3 +23,7 @@ export const StatusCodes = {
 
 export type StatusCodeKeys = keyof typeof StatusCodes;
 export type StatusCodeValues = (typeof StatusCodes)[StatusCodeKeys];
+
+export const HEADERS = {
+  RequestId: 'x-request-id',
+};

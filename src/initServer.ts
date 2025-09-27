@@ -1,11 +1,12 @@
 import express from 'express';
 import http, { Server } from 'http';
 import { serviceName } from './common/constants';
-import { configuration } from './configurations';
-import { initConfigService } from './configurations/initConfig';
+import { postUseMiddleware } from './common/utils/postUseMiddleware';
+import { preUseMiddleware } from './common/utils/preUseMiddleware';
+import { configuration, initLoggerService } from './configurations';
+import { initConfigService } from './configurations/initConfigService';
 import { initCallContextService } from './lib/call-context';
 import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
-import { initLoggerService } from './lib/loggerService';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { attachFrontendModule } from './modules/frontend/frontend.module';
@@ -14,7 +15,7 @@ import { attachHealthCheckModule } from './modules/health-check/health-check.mod
 async function startServer() {
   const configService = initConfigService(configuration());
   const callContextService = initCallContextService();
-  const logger = initLoggerService(configService, callContextService);
+  const logger = initLoggerService(callContextService);
 
   const callContextMiddleware = new CallContextMiddleware(callContextService);
 
@@ -24,7 +25,7 @@ async function startServer() {
   const PORT = configService.get<number>('port');
 
   attachBaseMiddlewares(app);
-  callContextMiddleware.use(app); // ['/health-check']
+  callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
 
   attachHealthCheckModule(app);
   attachFrontendModule(app); // <--- all modules MUST be attached before this module, since it's like a dark hole - it catches everything.

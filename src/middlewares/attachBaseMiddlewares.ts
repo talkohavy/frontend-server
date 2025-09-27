@@ -15,7 +15,7 @@ export function attachBaseMiddlewares(app: Application, options?: AttachBaseMidd
   const { bodySizeLimit = '10mb' } = options ?? {};
 
   app.disable('x-powered-by');
-  app.set('etag', false);
+  // app.set('etag', false);
 
   attachHelmetMiddleware({ app });
 
