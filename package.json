@@ -31,6 +31,7 @@
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "express": "^5.1.0",
     "globals": "^16.4.0",
+    "json-easy-strip": "^1.0.6",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.4",
     "tsx": "^4.19.3",
