@@ -31,7 +31,7 @@ export class FrontendMiddleware {
 
           if (filePath.endsWith('.html')) {
             // Choose either No cache or Short cache for HTML files (in case any are served statically)
-            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.setHeader('Cache-Control', 'no-store'); // no-cache, no-store, must-revalidate
             return;
           }
 
