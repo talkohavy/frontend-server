@@ -28,4 +28,4 @@ export const HEADERS = {
   RequestId: 'x-request-id',
 };
 
-export const HTML_CACHE_HEADER = 'no-store'; // no-cache, no-store, must-revalidate, 'public, max-age=3600'
+export const HTML_CACHE_HEADER = 'public, max-age=3600'; // no-cache, no-store, must-revalidate, 'public, max-age=3600'
