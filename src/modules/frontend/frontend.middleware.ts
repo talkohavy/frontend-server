@@ -1,5 +1,6 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import path from 'path';
+import { HTML_CACHE_HEADER } from '../../common/constants';
 
 export class FrontendMiddleware {
   public constructor(private readonly app: Application) {}
@@ -31,7 +32,7 @@ export class FrontendMiddleware {
 
           if (filePath.endsWith('.html')) {
             // Choose either No cache or Short cache for HTML files (in case any are served statically)
-            res.setHeader('Cache-Control', 'no-store'); // no-cache, no-store, must-revalidate
+            res.setHeader('Cache-Control', HTML_CACHE_HEADER);
             return;
           }
 
