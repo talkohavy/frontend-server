@@ -1,31 +1,22 @@
 import express from 'express';
 import http, { Server } from 'http';
 import { serviceName } from './common/constants';
-import { postUseMiddleware } from './common/utils/postUseMiddleware';
-import { preUseMiddleware } from './common/utils/preUseMiddleware';
 import { bootstrap, ModuleRegistry } from './core';
-import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
-import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
-import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
+import { MiddlewareRegistry } from './core/middlewareRegistry';
 
 async function startServer() {
-  const { configService, callContextService, loggerService: logger } = await bootstrap();
+  const { configService, loggerService: logger } = await bootstrap();
 
   const moduleRegistry = new ModuleRegistry();
-
-  const callContextMiddleware = new CallContextMiddleware(callContextService);
+  const middlewareRegistry = new MiddlewareRegistry();
 
   const app = express();
   const httpServer: Server = http.createServer(app);
 
   const PORT = configService.get<number>('port');
 
-  attachBaseMiddlewares(app);
-  callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
-
+  middlewareRegistry.useAllMiddlewares(app);
   moduleRegistry.attachAllControllers(app);
-
-  attachErrorMiddlewares(app);
 
   // WARNING!!! DO NOT LISTEN USING APP! While this doesn't affect normal routes, it does affect socketIO routes, They will not be able to connect.
   httpServer.listen(PORT, () => logger.log(`🚀 ${serviceName} is up and running on port ${PORT}`));
