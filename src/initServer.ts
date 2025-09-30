@@ -1,6 +1,7 @@
 import express from 'express';
 import http, { Server } from 'http';
 import { serviceName } from './common/constants';
+import { ConfigKeys } from './configurations';
 import { bootstrap, ModuleRegistry } from './core';
 import { MiddlewareRegistry } from './core/middlewareRegistry';
 
@@ -13,7 +14,7 @@ async function startServer() {
   const app = express();
   const httpServer: Server = http.createServer(app);
 
-  const PORT = configService.get<number>('port');
+  const PORT = configService.get<number>(ConfigKeys.Port);
 
   middlewareRegistry.useAllMiddlewares(app);
   moduleRegistry.attachAllControllers(app);
